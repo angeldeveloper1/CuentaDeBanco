@@ -2,7 +2,6 @@ package com.proyecto7;
 
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.Map;
 import java.util.Scanner;
 
 public class CuentaDeBanco {
@@ -11,22 +10,22 @@ public class CuentaDeBanco {
     private Scanner sc;
 
     public CuentaDeBanco(Scanner sc) {
-        this.sc=sc;
+        this.sc = sc;
     }
 
-    public void crearCuentaBanco() {
+    public synchronized void crearCuentaBanco() {
         System.out.println("Ingrese el numero de la cuenta");
         String numeroCuenta = sc.nextLine();
         System.out.println("Ingrese el nombre de la cuenta");
         String nombreCuenta = sc.nextLine();
-        Cuenta cuenta = new Cuenta(numeroCuenta,nombreCuenta);
-        cuentaBanco.put(numeroCuenta,cuenta);
+        Cuenta cuenta = new Cuenta(numeroCuenta, nombreCuenta);
+        cuentaBanco.put(numeroCuenta, cuenta);
         System.out.println("Se creo la cuenta con exito.");
     }
 
     public synchronized void depositarDinero() {
         try {
-            if (cuentaBanco.isEmpty()){
+            if (cuentaBanco.isEmpty()) {
                 System.out.println("No tiene ninguna cuenta, debe crearse una.");
             } else {
                 System.out.println("Ingrese el numero de la cuenta que desea depositar");
@@ -38,7 +37,7 @@ public class CuentaDeBanco {
                     if (cantidadDinero > 0) {
                         Cuenta cuenta = cuentaBanco.get(numeroCuenta);
                         cuenta.setCantidadDinero(cuenta.getCantidadDinero() + cantidadDinero);
-                        System.out.println("Se deposito $" + cantidadDinero + " a la cuenta " +numeroCuenta + " exitosamente.");
+                        System.out.println("Se deposito $" + cantidadDinero + " a la cuenta " + numeroCuenta + " exitosamente.");
                     } else {
                         System.out.println("No puede depositar esa cantidad.");
                     }
@@ -55,12 +54,12 @@ public class CuentaDeBanco {
 
     public synchronized void retirarDinero() {
         try {
-            if (cuentaBanco.isEmpty()){
+            if (cuentaBanco.isEmpty()) {
                 System.out.println("No tiene ninguna cuenta, debe crearse una.");
             } else {
                 System.out.println("Ingrese el numero de la cuenta que desea retirar");
                 String numeroCuenta = sc.nextLine();
-                if (cuentaBanco.containsKey(numeroCuenta)){
+                if (cuentaBanco.containsKey(numeroCuenta)) {
                     System.out.println("Ingrese la cantidad de dinero que desea retirar");
                     double cantidadDinero = sc.nextDouble();
                     sc.nextLine();
@@ -69,7 +68,7 @@ public class CuentaDeBanco {
                         System.out.println("Cantidad de dinero invalido o insuficiente en la cuenta.");
                     } else {
                         cuenta.setCantidadDinero(cuenta.getCantidadDinero() - cantidadDinero);
-                        System.out.println("Se retiro $" +cantidadDinero +" de la cuenta " +numeroCuenta + " exitosamente.");
+                        System.out.println("Se retiro $" + cantidadDinero + " de la cuenta " + numeroCuenta + " exitosamente.");
                     }
                 } else {
                     System.out.println("El numero de la cuenta no existe.");
@@ -101,9 +100,9 @@ public class CuentaDeBanco {
                         cuenta1.setCantidadDinero(cuenta1.getCantidadDinero() - cantidad);
                         Cuenta cuenta2 = cuentaBanco.get(numeroCuenta2);
                         cuenta2.setCantidadDinero(cuenta2.getCantidadDinero() + cantidad);
-                        System.out.println("Se transferio $" +cantidad +" de la cuenta " +numeroCuenta1 + " a la cuenta " +numeroCuenta2 + ".");
+                        System.out.println("Se transferio $" + cantidad + " de la cuenta " + numeroCuenta1 + " a la cuenta " + numeroCuenta2 + ".");
                     } else {
-                        System.out.println("Cantidad de dinero invalido o insuficiente de la cuenta " +numeroCuenta1);
+                        System.out.println("Cantidad de dinero invalido o insuficiente de la cuenta " + numeroCuenta1);
                     }
                 } else {
                     System.out.println("Uno de los dos numeros de cuenta no existe o esta mal escrito, intente nuevamente.");
